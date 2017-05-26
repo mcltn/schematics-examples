@@ -1,7 +1,7 @@
 
 provider "ibmcloud" {
   softlayer_username = "${var.softlayer_username}"
-  softlayer_api_key = "${var.softlayer_apikey}"
+  softlayer_api_key = "${var.softlayer_api_key}"
 }
 
 resource "ibmcloud_infra_virtual_guest" "schem-ex-1" {
@@ -16,5 +16,5 @@ resource "ibmcloud_infra_virtual_guest" "schem-ex-1" {
   local_disk = true
   private_network_only = true,
   hourly_billing = true,
-  tags = ["cam"]
+  tags = ["schematics"]
 }
