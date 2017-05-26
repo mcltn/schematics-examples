@@ -1,3 +1,5 @@
+variable softlayer_username {}
+variable softlayer_api_key {}
 
 provider "ibmcloud" {
   softlayer_username = "${var.softlayer_username}"
