@@ -12,9 +12,14 @@ data "ibmcloud_infra_image_template" "compute_template" {
   name = "compute-node"
 }
 
+resource "random_id" "server" {
+  prefix = "dal-cn"
+  byte_length = 1
+}
+
 resource "ibmcloud_infra_virtual_guest" "dal-computenode" {
-  count = 0
-  hostname = "dal-cn-n"
+  count = 3
+  hostname = "${random_id.server.hex}"
   domain = "grid.local"
   image_id = "${data.ibmcloud_infra_image_template.compute_template.id}"
   datacenter = "dal13"
