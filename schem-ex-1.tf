@@ -19,7 +19,7 @@ resource "random_id" "server" {
 
 resource "ibmcloud_infra_virtual_guest" "dal-computenode" {
   count = 3
-  hostname = "${random_id.server.hex}"
+  hostname = "${resource.random_id.server.hex}"
   domain = "grid.local"
   image_id = "${data.ibmcloud_infra_image_template.compute_template.id}"
   datacenter = "dal13"
