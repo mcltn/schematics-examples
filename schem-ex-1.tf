@@ -13,9 +13,9 @@ data "ibmcloud_infra_image_template" "compute_template" {
 }
 
 resource "ibmcloud_infra_virtual_guest" "dal-computenode" {
-  count = 3
+  count = 1
   hostname = "dal-cn-n"
-  domain = "colton.local"
+  domain = "grid.local"
   image_id = "${data.ibmcloud_infra_image_template.compute_template.id}"
   datacenter = "dal13"
   cores = 2
