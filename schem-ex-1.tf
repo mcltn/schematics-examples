@@ -6,17 +6,19 @@ provider "ibmcloud" {
   softlayer_api_key = "${var.softlayer_api_key}"
 }
 
-resource "ibmcloud_infra_virtual_guest" "schem-ex-1" {
-  hostname = "ub-schem-1"
-  domain = "colton.cc"
-  os_reference_code = "UBUNTU_LATEST"
-  datacenter = "mex01"
-  cores = 1
-  memory = 1024
-  disks = [25]
-  network_speed = 100
-  local_disk = true
+data "ibmcloud_infra_image_template" "compute_template" {
+  name = "compute-node"
+}
+
+resource "ibmcloud_infra_virtual_guest" "dal-computenode" {
+  domain = "colton.local"
+  image_id = "${data.ibmcloud_infra_image_template.compute_template.id}"
+  datacenter = "dal13"
+  cores = 2
+  memory = 2048
+  network_speed = 1000
+  local_disk = false
   private_network_only = true,
   hourly_billing = true,
-  tags = ["schematics"]
+  tags = ["schematics","compute"]
 }
