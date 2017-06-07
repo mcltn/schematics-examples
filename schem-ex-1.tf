@@ -23,7 +23,7 @@ resource "ibmcloud_infra_virtual_guest" "dal-computenode" {
   memory = 2048
   network_speed = 1000
   local_disk = false
-  private_network_only = true,
+  private_network_only = false,
   hourly_billing = true,
   tags = ["schematics","compute"]
 
