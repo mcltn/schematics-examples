@@ -10,7 +10,7 @@ provider "ibmcloud" {
 }
 
 data "ibmcloud_infra_image_template" "compute_template" {
-  name = "compute_template-1"
+  name = "compute-template-1"
 }
 
 resource "ibmcloud_infra_virtual_guest" "dal-computenode" {
