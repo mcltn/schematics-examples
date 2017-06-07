@@ -33,7 +33,7 @@ resource "ibmcloud_infra_virtual_guest" "dal-computenode" {
     ],
     connection {
       type = "winrm"
-      host = "${ibmcloud_infra_virtual_guest.hpc-server-1.ipv4_address}"
+      host = "${ibmcloud_infra_virtual_guest.dal-computenode.ipv4_address}"
       user = "templateadmin"
       password = "${var.template_password}"
       timeout = "10m"
