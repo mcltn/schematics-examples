@@ -7,7 +7,6 @@ provider "ibmcloud" {
   bluemix_api_key = "${var.bluemix_api_key}"
   softlayer_username = "${var.softlayer_username}"
   softlayer_api_key = "${var.softlayer_api_key}"
-  template_password = "${var.template_password}"
 }
 
 data "ibmcloud_infra_image_template" "compute_template" {
