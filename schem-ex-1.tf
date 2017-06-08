@@ -8,7 +8,7 @@ provider "ibmcloud" {
 }
 
 data "ibmcloud_infra_image_template" "compute_template" {
-  name = "template-dc"
+  name = "template-cn"
 }
 
 resource "ibmcloud_infra_virtual_guest" "dal-computenode" {
@@ -27,7 +27,7 @@ resource "ibmcloud_infra_virtual_guest" "dal-computenode" {
 
   provisioner "remote-exec" {
     inline = [
-      "powershell.exe -sta -ExecutionPolicy Unrestricted -Command 'c:\BuildComputeNode -password ${var.template_password}'"
+      "powershell.exe -sta -ExecutionPolicy Unrestricted -Command 'BuildComputeNode -password ${var.template_password}'"
     ],
     connection {
       type = "winrm"
