@@ -1,16 +1,14 @@
-variable bluemix_api_key {}
 variable softlayer_username {}
 variable softlayer_api_key {}
 variable template_password {}
 
 provider "ibmcloud" {
-  bluemix_api_key = "${var.bluemix_api_key}"
   softlayer_username = "${var.softlayer_username}"
   softlayer_api_key = "${var.softlayer_api_key}"
 }
 
 data "ibmcloud_infra_image_template" "compute_template" {
-  name = "compute-template-1"
+  name = "template-dc"
 }
 
 resource "ibmcloud_infra_virtual_guest" "dal-computenode" {
@@ -29,14 +27,14 @@ resource "ibmcloud_infra_virtual_guest" "dal-computenode" {
 
   provisioner "remote-exec" {
     inline = [
-      "powershell.exe -sta -ExecutionPolicy Unrestricted -Command '& { BuildComputeNode -password ${var.template_password} }'"
+      "powershell.exe -sta -ExecutionPolicy Unrestricted -Command 'c:\BuildComputeNode -password ${var.template_password}'"
     ],
     connection {
       type = "winrm"
       host = "${ibmcloud_infra_virtual_guest.dal-computenode.ipv4_address}"
       user = "templateadmin"
       password = "${var.template_password}"
-      timeout = "10m"
+      timeout = "2m"
     }
   }
 }
