@@ -27,7 +27,7 @@ resource "ibmcloud_infra_virtual_guest" "dal-computenode" {
 
   provisioner "remote-exec" {
     inline = [
-      "powershell.exe -sta -ExecutionPolicy Unrestricted -Command 'c:\installs\configurenode.ps1'",
+      "powershell.exe -sta -ExecutionPolicy Unrestricted -Command 'c:\\installs\\configurenode.ps1'",
       "powershell.exe -sta -ExecutionPolicy Unrestricted -Command 'BuildComputeNode -password ${var.template_password}'"
     ],
     connection {
