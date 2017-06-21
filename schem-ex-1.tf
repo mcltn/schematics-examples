@@ -7,15 +7,11 @@ provider "ibmcloud" {
   softlayer_api_key = "${var.softlayer_api_key}"
 }
 
-data "ibmcloud_infra_image_template" "compute_template" {
-  name = "template-cn"
-}
-
 resource "ibmcloud_infra_virtual_guest" "dal-computenode" {
-  count = 1
-  hostname = "dal-cn${count.index}"
+  count = 2
+  hostname = "dal-cn${count.index+1}"
   domain = "grid.local"
-  image_id = "${data.ibmcloud_infra_image_template.compute_template.id}"
+  image_id = 1657043
   datacenter = "dal13"
   cores = 2
   memory = 2048
@@ -25,17 +21,4 @@ resource "ibmcloud_infra_virtual_guest" "dal-computenode" {
   hourly_billing = true,
   tags = ["schematics","compute"]
 
-  provisioner "remote-exec" {
-    inline = [
-      "powershell.exe -sta -ExecutionPolicy Unrestricted -File 'c:\\installs\\configurenode.ps1'",
-      "powershell.exe -sta -ExecutionPolicy Unrestricted -Command 'BuildComputeNode -password ${var.template_password}'"
-    ],
-    connection {
-      type = "winrm"
-      host = "${ibmcloud_infra_virtual_guest.dal-computenode.ipv4_address}"
-      user = "templateadmin"
-      password = "${var.template_password}"
-      timeout = "2m"
-    }
-  }
 }
