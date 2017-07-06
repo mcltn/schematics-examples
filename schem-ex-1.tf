@@ -18,7 +18,7 @@ data "ibmcloud_infra_image_template" "compute_template" {
 }
 
 resource "ibmcloud_infra_virtual_guest" "dal-computenode" {
-  count = ${var.compute_nodes}
+  count = "${var.compute_nodes}"
   hostname = "dal-cn${count.index}"
   domain = "grid.local"
   image_id = "${data.ibmcloud_infra_image_template.compute_template.id}"
