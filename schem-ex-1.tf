@@ -1,6 +1,12 @@
 variable softlayer_username {}
 variable softlayer_api_key {}
-variable template_password {}
+variable template_image {}
+variable domain {}
+variable domain_username {}
+variable domain_password {}
+variable dns_server {}
+variable headnode {}
+variable compute_nodes {}
 
 provider "ibmcloud" {
   softlayer_username = "${var.softlayer_username}"
@@ -8,11 +14,11 @@ provider "ibmcloud" {
 }
 
 data "ibmcloud_infra_image_template" "compute_template" {
-  name = "template-cn"
+  name = ${var.template_image}
 }
 
 resource "ibmcloud_infra_virtual_guest" "dal-computenode" {
-  count = 1
+  count = ${var.compute_nodes}
   hostname = "dal-cn${count.index}"
   domain = "grid.local"
   image_id = "${data.ibmcloud_infra_image_template.compute_template.id}"
@@ -27,8 +33,7 @@ resource "ibmcloud_infra_virtual_guest" "dal-computenode" {
 
   provisioner "remote-exec" {
     inline = [
-      "powershell.exe -sta -ExecutionPolicy Unrestricted -File 'c:\\installs\\configurenode.ps1'",
-      "powershell.exe -sta -ExecutionPolicy Unrestricted -Command 'BuildComputeNode -password ${var.template_password}'"
+      "powershell.exe -sta -ExecutionPolicy Unrestricted -Command 'c:\\installs\\configurecomputenode.ps1 -domain ${var.domain} -username ${var.domain_username} -password ${var.domain_password} -dns_server ${var.dns_server} -headnode ${var.headnode}'"
     ],
     connection {
       type = "winrm"
