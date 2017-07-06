@@ -30,17 +30,5 @@ resource "ibmcloud_infra_virtual_guest" "dal-computenode" {
   private_network_only = false,
   hourly_billing = true,
   tags = ["schematics","compute"]
-
-  provisioner "remote-exec" {
-    inline = [
-      "powershell.exe -sta -ExecutionPolicy Unrestricted -Command 'c:\\installs\\configurecomputenode.ps1 -domain ${var.domain} -username ${var.domain_username} -password ${var.domain_password} -dns_server ${var.dns_server} -headnode ${var.headnode}'"
-    ],
-    connection {
-      type = "winrm"
-      host = "${ibmcloud_infra_virtual_guest.dal-computenode.ipv4_address}"
-      user = "templateadmin"
-      password = "${var.template_password}"
-      timeout = "2m"
-    }
-  }
+  user_metadata = "#ps1_sysnative\nscript: |\n<powershell>\nc:\\installs\\configurecomputenode.ps1 -domain ${var.domain} -username ${var.domain_username} -password ${var.domain_password} -dns_server ${var.dns_server} -headnode ${var.headnode}\n</powershell>"
 }
