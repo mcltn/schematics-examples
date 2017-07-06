@@ -14,7 +14,7 @@ provider "ibmcloud" {
 }
 
 data "ibmcloud_infra_image_template" "compute_template" {
-  name = ${var.template_image}
+  name = "${var.template_image}"
 }
 
 resource "ibmcloud_infra_virtual_guest" "dal-computenode" {
